@@ -45,7 +45,7 @@ submissionEvent.on("item", async (post) => {
     .setTimestamp();
 
   if (post.is_video) embed.setImage(post.media.oembed.thumbnail_url);
-  if (isImage(url)) embed.setImage(url);
+  if (isImage(post.url)) embed.setImage(post.url);
   if (post.is_self) embed.setDescription(post.selftext);
   if (post.author_name) {
     embed.setAuthor({
@@ -59,6 +59,6 @@ submissionEvent.on("item", async (post) => {
 });
 
 async function isImage(url) {
-  const res = await axios.get(url).then(res.headers);
-  return res.headers["content-type"].startsWith("image");
+  const headers = await axios.get(url).then(res.headers);
+  return headers["content-type"].startsWith("image");
 }
